@@ -12,14 +12,6 @@ var storage = multer.diskStorage({
   destination: './uploads',
   filename: function(req, file, cb) {
     cb(null, file.originalname + '.jpg');
-    //cb(null, file.originalname + '-' + Date.now() + '.jpg');
-    /*return crypto.pseudoRandomBytes(16, function(err, raw) {
-      if (err) {
-        return cb(err);
-      } 
-
-    return cb(null, "" + (raw.toString('hex')) + (path.extname(file.originalname)));
-    });  */
   }
 });
 
@@ -28,10 +20,14 @@ app.post('/', multer({
 }).single('upload'), function(req, res) {
   console.log(req.file);
   
-  ///// execute style transfer pipieline start////////
+  ///// execute style transfer pipeline start////////
   var exec = require('child_process').exec;
+  var photoName = []
+  var model = req.file.filename.split('_____')[0];
+  console.log(model)
+
   var execProcess = require("./exec_process.js");
-  execProcess.result("expect do_pipeline_works.sh "+req.file.path+" /Users/guanjhensu/Desktop/ProjectArt/nodejs_assemble/public/", function(err, response){
+  execProcess.result("expect do_pipeline_works.sh "+req.file.path+" /Users/guanjhensu/Desktop/ProjectArt/nodejs_assemble/public/ "+model+".model", function(err, response){
 
       if(!err){
           console.log(response);
