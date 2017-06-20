@@ -4,8 +4,8 @@ var path = require('path');
 var crypto = require('crypto');
 
 var app = new express();
+// app.listen(3000, "10.43.232.9", console.log("Listening on port 3000"));
 app.listen(3000, console.log("Listening on port 3000"));
-
 
 // get image from client
 var storage = multer.diskStorage({
